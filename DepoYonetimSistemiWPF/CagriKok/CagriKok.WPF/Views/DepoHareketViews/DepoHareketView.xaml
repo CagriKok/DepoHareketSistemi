@@ -1,0 +1,125 @@
+﻿<Window x:Class="CagriKok.WPF.Views.DepoHareketViews.DepoHareketView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CagriKok.WPF.Views.DepoHareketViews"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converter="clr-namespace:CagriKok.WPF.Converters"
+        xmlns:viewmodel="clr-namespace:CagriKok.WPF.ViewModels.DepoHareketViewModels"
+        mc:Ignorable="d"
+        Width="400"
+        SizeToContent="Height"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="DepoHareketView">
+
+    <Window.Resources>
+        <converter:HareketTipleriToBooleanConverter x:Key="hareketTipConverter"/>
+        <converter:BirimTipleriToBooleanValueConverter x:Key="birimTipConverter"/>
+        <converter:MiktarVeBirimConverter x:Key="miktarBirimconverter"/>
+    </Window.Resources>
+    
+ 
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="18*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Depo Hareket Bilgileri"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                   Margin="38,20,0,20" Grid.ColumnSpan="2"/>
+
+        <ComboBox x:Name="cbxDepolar" Grid.Row="1"
+                  Margin="3,0,3,0"
+                  materialDesign:HintAssist.Hint="Depo Seçiniz"
+                  ItemsSource="{Binding Depolar}"
+                  SelectedValuePath="Id"
+                  DisplayMemberPath="Ad"
+                  SelectedValue="{Binding DepoId, Mode=TwoWay}" 
+                  Grid.ColumnSpan="2"/>
+
+        <ComboBox x:Name="cbxMalTurler" Grid.Row="2"
+                  Margin="3,0,3,0"
+                  materialDesign:HintAssist.Hint="Mal Türü Seçiniz"
+                  ItemsSource="{Binding MalTurleri}"
+                  SelectedValuePath="Id"
+                  DisplayMemberPath="Ad"
+                  SelectedValue="{Binding MalTurId, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+        
+        <ComboBox x:Name="cbxHareket" Grid.Row="3"
+          Margin="3,0,3,0"
+        materialDesign:HintAssist.Hint="Hareket Tipi Seçiniz"                  
+          SelectedValuePath="Tag"       
+          SelectedValue="{Binding SelectedHareket, Mode=TwoWay}"
+          Grid.ColumnSpan="2">
+            <ComboBoxItem Content="Giriş" Tag="1"/>
+            <ComboBoxItem Content="Çıkış" Tag="2"/>
+        </ComboBox>
+
+        <ComboBox x:Name="cbxBirim" Grid.Row="4"
+                 materialDesign:HintAssist.Hint="Birim Seçiniz"
+                 Margin="3,0,3,0"
+                 SelectedValuePath="Tag"
+                 SelectedValue="{Binding SelectedItem, Mode=TwoWay}"
+                 Grid.ColumnSpan="2">
+            <ComboBoxItem Content="Adet" Tag="1"/>
+            <ComboBoxItem Content="Kg" Tag="2"/>
+            <ComboBoxItem Content="Koli" Tag="3"/>
+
+        </ComboBox>
+
+        <DatePicker x:Name="dpTarih" Grid.Row="5"
+                    Margin="3,0,3,0"
+                    materialDesign:HintAssist.Hint="Tarih Seçiniz"
+                    SelectedDate="{Binding TarihSaat, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="txtMiktar" Grid.Row="6"
+                 Margin="3,10,3,10"
+                 materialDesign:HintAssist.Hint="Adet"
+                 Text="{Binding Miktar, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+
+        <!--<TextBox x:Name="txtMiktar" Grid.Row="6"
+         Margin="3,10,3,10"
+         materialDesign:HintAssist.Hint="Miktar ve Birim"
+         Text="{Binding Path=Miktar, Converter={StaticResource miktarBirimconverter}, Mode=TwoWay}" Grid.ColumnSpan="2"/>-->
+
+
+        <TextBox x:Name="txtAciklama" Grid.Row="7"
+                 Margin="3,10,3,10"
+                 materialDesign:HintAssist.Hint="Açıklama"
+                 Text="{Binding Description, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+
+        <StackPanel Grid.Row="7"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="247,43,0,0" Grid.RowSpan="2">
+            <Button x:Name="btnIptal" Content="İptal"
+                    Margin="0 10 5 10"
+                    Style="{StaticResource MaterialDesignFlatAccentButton}"
+                    IsCancel="True"/>
+            <Button x:Name="btnTamam" Content="Tamam"
+                    Margin="5 10 5 10"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    IsDefault="True"
+                    Click="Button_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
